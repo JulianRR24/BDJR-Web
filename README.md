@@ -107,13 +107,14 @@ bdjr-web/
 
 - **Hosting**: ProPHP.
 
-<img width="1896" height="913" alt="image" src="https://github.com/user-attachments/assets/dbf542fb-2e59-4e2b-bb28-4720ed19e2d1" />
+<img width="1916" height="991" alt="image" src="https://github.com/user-attachments/assets/8677f314-b7e0-457e-846b-8ecd0e9d272e" />
 
 - **URL oficial**: `https://bdjr-web.66ghz.com`.
 
 - El backend PHP vive bajo la ruta `/backend` (ej. `https://bdjr-web.66ghz.com/backend/product_manage.php`).
 
-<img width="1916" height="988" alt="image" src="https://github.com/user-attachments/assets/a7156c81-0000-47ea-9659-e09e05fe0499" />
+<img width="1916" height="987" alt="image" src="https://github.com/user-attachments/assets/c2cd4e58-4fe7-4395-9e3c-3fffad77f95c" />
+
 
 En producción, `assets/js/api.js` debe apuntar a `/backend`:
 
@@ -133,7 +134,7 @@ const API_BASE_URL = "/backend";
 
 ### 5.1. Esquema de base de datos
 
-<img width="710" height="696" alt="image" src="https://github.com/user-attachments/assets/9f4d511e-29d7-451d-ba47-f0e819e42efd" />
+<img width="766" height="756" alt="image" src="https://github.com/user-attachments/assets/6e7768a4-3794-4484-8bfa-0f72eec0eb50" />
 
 El archivo `supabase_schema.sql` define las tablas base:
 
@@ -186,8 +187,8 @@ El módulo `admin.js` utiliza `isAuthenticated()` al cargar para redirigir a `lo
 
 ### 6.1. Vista (`admin_products.html`)
 
-<img width="1891" height="913" alt="image" src="https://github.com/user-attachments/assets/7a6b7352-2036-476e-8498-7ac3a31b437d" />
-<img width="1915" height="918" alt="image" src="https://github.com/user-attachments/assets/e77a610c-e39c-4e9e-80b9-561e8382f0c2" />
+<img width="1919" height="988" alt="image" src="https://github.com/user-attachments/assets/af22dcd4-8d7e-4644-9d66-eb540fe38165" />
+<img width="1919" height="990" alt="image" src="https://github.com/user-attachments/assets/dda509b5-0f35-4be7-bb51-6717ee5a6243" />
 
 - Página protegida por `isAuthenticated()` (redirección a `login.html` si no hay token).
 - Presenta:
