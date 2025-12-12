@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablas - Basics</title>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/utilities.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+        <main class="main-content">
+            <header class="page-header">
+                <h1 class="page-title">Tablas</h1>
+            </header>
+
+            <div class="card mb-4">
+                <h2 class="card-title mb-4">Tabla de Tecnologías (Simple)</h2>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tecnología</th>
+                                <th>Tipo</th>
+                                <th>Uso en el Proyecto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>HTML5</td>
+                                <td>Lenguaje de Marcado</td>
+                                <td>Estructura semántica de todas las páginas.</td>
+                            </tr>
+                            <tr>
+                                <td>CSS3</td>
+                                <td>Hoja de Estilos</td>
+                                <td>Diseño, layout (Flexbox/Grid) y animaciones.</td>
+                            </tr>
+                            <tr>
+                                <td>JavaScript (ES6+)</td>
+                                <td>Lenguaje de Programación</td>
+                                <td>Lógica del carrito, sidebar y módulos.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title mb-4">Tabla Compleja (Colspan/Rowspan)</h2>
+                <div class="table-container">
+                    <table class="table" border="1" style="border-color: var(--border-color);">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Departamento</th>
+                                <th colspan="2">Empleados</th>
+                                <th rowspan="2">Presupuesto</th>
+                            </tr>
+                            <tr>
+                                <th>Junior</th>
+                                <th>Senior</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Desarrollo</td>
+                                <td>5</td>
+                                <td>2</td>
+                                <td>$50,000</td>
+                            </tr>
+                            <tr>
+                                <td>Diseño</td>
+                                <td>3</td>
+                                <td>1</td>
+                                <td>$30,000</td>
+                            </tr>
+                            <tr>
+                                <td>Marketing</td>
+                                <td colspan="2" class="text-center">4 (Mixto)</td>
+                                <td>$20,000</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th colspan="2">15 Empleados</th>
+                                <th>$100,000</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script type="module" src="../assets/js/app.js"></script>
+</body>
+</html>

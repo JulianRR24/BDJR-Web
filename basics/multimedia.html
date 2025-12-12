@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia - Basics</title>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/utilities.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+        <main class="main-content">
+            <header class="page-header">
+                <h1 class="page-title">Multimedia</h1>
+            </header>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <h2 class="card-title mb-4">Imagen Responsiva</h2>
+                    <p class="mb-2 text-sm text-secondary">Imagen local o externa adaptada al contenedor.</p>
+                    <figure>
+                        <img src="https://placehold.co/600x400/1e293b/FFF?text=Tech+Office" alt="Oficina Tecnológica" style="border-radius: var(--radius-md);">
+                        <figcaption class="text-center text-xs text-muted mt-2">Nuestras oficinas centrales.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title mb-4">Video (HTML5)</h2>
+                    <p class="mb-2 text-sm text-secondary">Reproductor nativo de video.</p>
+                    <video controls style="width: 100%; border-radius: var(--radius-md);">
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title mb-4">Audio (HTML5)</h2>
+                    <p class="mb-2 text-sm text-secondary">Reproductor de audio para podcasts o demos.</p>
+                    <audio controls style="width: 100%;">
+                        <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el elemento de audio.
+                    </audio>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title mb-4">Embed (YouTube)</h2>
+                    <p class="mb-2 text-sm text-secondary">Iframe externo.</p>
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-md);">
+                        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script type="module" src="../assets/js/app.js"></script>
+</body>
+</html>

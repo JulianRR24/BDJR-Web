@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - BDJR</title>
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/utilities.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <main
+        class="main-content flex items-center justify-center"
+        style="
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <div class="card" style="width: 100%; max-width: 400px; margin: auto">
+          <div class="flex justify-center mb-6 border-b border-border" style="gap: 1rem;">
+            <button id="tab-login" class="px-6 py-3 font-semibold text-primary border-b-2 border-primary transition-colors focus:outline-none" onclick="switchTab('login')">Iniciar Sesión</button>
+            <button id="tab-register" class="px-6 py-3 font-semibold text-text-muted hover:text-text-primary transition-colors focus:outline-none" onclick="switchTab('register')">Registrarse</button>
+          </div>
+
+          <form id="auth-form">
+            <input type="hidden" id="auth-mode" value="login">
+            
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-input" required />
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-input" required minlength="6" />
+              <p class="text-xs text-text-muted mt-1 hidden" id="password-hint">Mínimo 6 caracteres</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full mb-4" id="submit-btn">
+              Entrar
+            </button>
+            
+            <div class="text-center text-sm" id="forgot-password-link">
+              <a href="#" class="text-primary">¿Olvidaste tu contraseña?</a>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="assets/js/app.js"></script>
+    <script type="module">
+      import { login, register, isAuthenticated } from "./assets/js/auth.js";
+
+      // Redirect if already logged in
+      if (isAuthenticated()) {
+          window.location.href = 'index.html';
+      }
+
+      const form = document.getElementById("auth-form");
+      const modeInput = document.getElementById("auth-mode");
+      const submitBtn = document.getElementById("submit-btn");
+      const passwordHint = document.getElementById("password-hint");
+      const forgotLink = document.getElementById("forgot-password-link");
+      const tabLogin = document.getElementById("tab-login");
+      const tabRegister = document.getElementById("tab-register");
+
+      window.switchTab = (mode) => {
+        modeInput.value = mode;
+        
+        if (mode === 'login') {
+            tabLogin.className = "px-6 py-3 font-semibold text-primary border-b-2 border-primary transition-colors focus:outline-none";
+            tabRegister.className = "px-6 py-3 font-semibold text-text-muted hover:text-text-primary transition-colors focus:outline-none";
+            submitBtn.textContent = "Entrar";
+            passwordHint.classList.add('hidden');
+            forgotLink.classList.remove('hidden');
+        } else {
+            tabLogin.className = "px-6 py-3 font-semibold text-text-muted hover:text-text-primary transition-colors focus:outline-none";
+            tabRegister.className = "px-6 py-3 font-semibold text-primary border-b-2 border-primary transition-colors focus:outline-none";
+            submitBtn.textContent = "Crear Cuenta";
+            passwordHint.classList.remove('hidden');
+            forgotLink.classList.add('hidden');
+        }
+      };
+
+      form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          console.log("Form submitted"); // Debug
+          
+          const email = e.target.querySelector('input[type="email"]').value;
+          const password = e.target.querySelector('input[type="password"]').value;
+          const mode = modeInput.value;
+          const originalText = submitBtn.textContent;
+
+          console.log("Mode:", mode, "Email:", email); // Debug
+
+          try {
+            submitBtn.textContent = "Procesando...";
+            submitBtn.disabled = true;
+
+            if (mode === 'login') {
+                console.log("Attempting login..."); // Debug
+                const user = await login(email, password);
+                console.log("Login successful, user:", user); // Debug
+                
+                // Verify storage
+                console.log("Token in storage:", localStorage.getItem('supabase_token'));
+                
+                alert("Login correcto. Redirigiendo...");
+                window.location.href = "index.html";
+            } else {
+                console.log("Attempting register..."); // Debug
+                const result = await register(email, password);
+                console.log("Register result:", result); // Debug
+                
+                if (result.error) throw new Error(result.error.message || "Error al registrarse");
+                alert("Registro exitoso. Por favor inicia sesión.");
+                switchTab('login');
+            }
+          } catch (error) {
+            console.error("Auth error:", error); // Debug
+            alert("Error: " + (error.message || "Ocurrió un error inesperado"));
+          } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+          }
+        });
+    </script>
+  </body>
+</html>

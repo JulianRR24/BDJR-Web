@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte &amp; Tickets - BDJR</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/utilities.css">
+    <style>
+        .new-ticket-modal {
+            width: 100%;
+            max-width: 500px;
+            border: none;
+            padding: 0;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .new-ticket-modal::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1 class="page-title">Soporte al Cliente</h1>
+                    <p class="text-secondary">Gestiona tus tickets y solicitudes de ayuda.</p>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('new-ticket-modal').showModal()">
+                    <span>+</span> Nuevo Ticket
+                </button>
+            </header>
+
+            <!-- Stats -->
+            <div class="grid grid-3 mb-4">
+                <div class="card">
+                    <div class="text-secondary mb-2">Tickets Abiertos</div>
+                    <div class="page-title">3</div>
+                </div>
+                <div class="card">
+                    <div class="text-secondary mb-2">Tiempo Promedio</div>
+                    <div class="page-title">2h 15m</div>
+                </div>
+                <div class="card">
+                    <div class="text-secondary mb-2">Satisfacción</div>
+                    <div class="page-title text-success">4.8/5.0</div>
+                </div>
+            </div>
+
+            <!-- Active Tickets List -->
+            <div class="card">
+                <h2 class="card-title mb-4">Tickets Recientes</h2>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Asunto</th>
+                                <th>Estado</th>
+                                <th>Prioridad</th>
+                                <th>Última Actualización</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#1023</td>
+                                <td>Error en la integración de API</td>
+                                <td><span class="badge badge-primary">En Progreso</span></td>
+                                <td><span class="text-danger font-bold">Alta</span></td>
+                                <td>Hace 2 horas</td>
+                                <td><button type="button" class="btn btn-outline btn-sm">Ver</button></td>
+                            </tr>
+                            <tr>
+                                <td>#1022</td>
+                                <td>Duda sobre facturación</td>
+                                <td><span class="badge badge-success">Abierto</span></td>
+                                <td>Media</td>
+                                <td>Hace 5 horas</td>
+                                <td><button type="button" class="btn btn-outline btn-sm">Ver</button></td>
+                            </tr>
+                            <tr>
+                                <td>#1020</td>
+                                <td>Solicitud de nueva funcionalidad</td>
+                                <td><span class="badge badge-success">Abierto</span></td>
+                                <td>Baja</td>
+                                <td>Ayer</td>
+                                <td><button type="button" class="btn btn-outline btn-sm">Ver</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- New Ticket Modal (Native HTML Dialog) -->
+            <dialog id="new-ticket-modal" class="card new-ticket-modal">
+                <div class="card-header p-4 border-b border-gray-700 flex justify-between items-center">
+                    <h3 class="card-title">Crear Nuevo Ticket</h3>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('new-ticket-modal').close()">✕</button>
+                </div>
+                <div class="p-4">
+                    <form onsubmit="event.preventDefault(); alert('Ticket creado exitosamente'); document.getElementById('new-ticket-modal').close();">
+                        <div class="form-group">
+                            <label class="form-label">Asunto</label>
+                            <input type="text" class="form-input" required placeholder="Resumen del problema">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Departamento</label>
+                            <select class="form-select">
+                                <option>Soporte Técnico</option>
+                                <option>Facturación</option>
+                                <option>Ventas</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Prioridad</label>
+                            <select class="form-select">
+                                <option>Baja</option>
+                                <option>Media</option>
+                                <option>Alta</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-textarea" rows="4" required placeholder="Detalla tu solicitud..."></textarea>
+                        </div>
+                        <div class="flex justify-end gap-2 mt-4">
+                            <button type="button" class="btn btn-outline" onclick="document.getElementById('new-ticket-modal').close()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Enviar Ticket</button>
+                        </div>
+                    </form>
+                </div>
+            </dialog>
+
+        </main>
+    </div>
+    <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

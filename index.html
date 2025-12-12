@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BDJR</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/utilities.css">
+  </head>
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <h1 class="page-title">Bienvenido a BDJR</h1>
+            <p class="text-secondary">
+              Tu plataforma de soluciones tecnológicas integrales.
+            </p>
+          </div>
+          <button class="btn btn-primary"><span>+</span> Nuevo Proyecto</button>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-3 mb-4">
+          <div class="card">
+            <div class="text-secondary mb-2">Proyectos Activos</div>
+            <div class="page-title">2</div>
+            <div class="text-success text-sm mt-1">↑ 2 nuevos este mes</div>
+          </div>
+          <div class="card">
+            <div class="text-secondary mb-2">Servicios Contratados</div>
+            <div class="page-title">0</div>
+            <div class="text-muted text-sm mt-1">Todo funcionando</div>
+          </div>
+          <a href="tickets.html" class="card hover:border-primary transition-colors cursor-pointer text-decoration-none" style="text-decoration: none; color: inherit;">
+            <div class="text-secondary mb-2">Tickets Abiertos</div>
+            <div class="page-title">3</div>
+            <div class="text-warning text-sm mt-1">⚠️ 1 Prioridad Alta</div>
+          </a>
+        </div>
+
+        <!-- Technologies Table -->
+        <div class="card mb-4">
+          <div class="card-header flex justify-between items-center">
+            <h2 class="card-title">Tecnologías Disponibles</h2>
+            <a href="catalog.html" class="btn btn-outline btn-sm"
+              >Ver Catálogo</a
+            >
+          </div>
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Tecnología</th>
+                  <th>Categoría</th>
+                  <th>Estado</th>
+                  <th>Nivel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Disponible -->
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#22c55e;border-radius:50%"></div>
+                            <strong>Java</strong>
+                        </div>
+                    </td>
+                    <td>Backend</td>
+                    <td><span class="badge badge-success">Disponible</span></td>
+                    <td>Avanzado</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#22c55e;border-radius:50%"></div>
+                            <strong>Dart</strong>
+                        </div>
+                    </td>
+                    <td>Lenguaje</td>
+                    <td><span class="badge badge-success">Disponible</span></td>
+                    <td>Intermedio</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#22c55e;border-radius:50%"></div>
+                            <strong>Flutter</strong>
+                        </div>
+                    </td>
+                    <td>Mobile</td>
+                    <td><span class="badge badge-success">Disponible</span></td>
+                    <td>Avanzado</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#22c55e;border-radius:50%"></div>
+                            <strong>Spring</strong>
+                        </div>
+                    </td>
+                    <td>Framework</td>
+                    <td><span class="badge badge-success">Disponible</span></td>
+                    <td>Avanzado</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#22c55e;border-radius:50%"></div>
+                            <strong>HTML & CSS</strong>
+                        </div>
+                    </td>
+                    <td>Frontend</td>
+                    <td><span class="badge badge-success">Disponible</span></td>
+                    <td>Experto</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#22c55e;border-radius:50%"></div>
+                            <strong>Javascript</strong>
+                        </div>
+                    </td>
+                    <td>Lenguaje</td>
+                    <td><span class="badge badge-success">Disponible</span></td>
+                    <td>Experto</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#22c55e;border-radius:50%"></div>
+                            <strong>Postgresql</strong>
+                        </div>
+                    </td>
+                    <td>Base de Datos</td>
+                    <td><span class="badge badge-success">Disponible</span></td>
+                    <td>Avanzado</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#22c55e;border-radius:50%"></div>
+                            <strong>MySql</strong>
+                        </div>
+                    </td>
+                    <td>Base de Datos</td>
+                    <td><span class="badge badge-success">Disponible</span></td>
+                    <td>Avanzado</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#22c55e;border-radius:50%"></div>
+                            <strong>NoSql</strong>
+                        </div>
+                    </td>
+                    <td>Base de Datos</td>
+                    <td><span class="badge badge-success">Disponible</span></td>
+                    <td>Intermedio</td>
+                </tr>
+
+                <!-- Beta -->
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#6366f1;border-radius:50%"></div>
+                            <strong>C#</strong>
+                        </div>
+                    </td>
+                    <td>Backend</td>
+                    <td><span class="badge badge-primary">Beta</span></td>
+                    <td>Básico</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#6366f1;border-radius:50%"></div>
+                            <strong>Kotlin</strong>
+                        </div>
+                    </td>
+                    <td>Mobile</td>
+                    <td><span class="badge badge-primary">Beta</span></td>
+                    <td>Básico</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#6366f1;border-radius:50%"></div>
+                            <strong>Ruby on rails</strong>
+                        </div>
+                    </td>
+                    <td>Framework</td>
+                    <td><span class="badge badge-primary">Beta</span></td>
+                    <td>Básico</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div style="width:10px;height:10px;background:#6366f1;border-radius:50%"></div>
+                            <strong>Python</strong>
+                        </div>
+                    </td>
+                    <td>Lenguaje</td>
+                    <td><span class="badge badge-primary">Beta</span></td>
+                    <td>Intermedio</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Novedades</h2>
+          </div>
+          <div class="grid grid-2">
+            <div
+              style="
+                background: var(--bg-body);
+                padding: var(--space-md);
+                border-radius: var(--radius-md);
+              "
+            >
+              <h3 class="font-bold mb-2">Nueva Integración AI</h3>
+              <p class="text-secondary text-sm">
+                Hemos añadido soporte para modelos de lenguaje avanzados en
+                nuestra API.
+              </p>
+            </div>
+            <div
+              style="
+                background: var(--bg-body);
+                padding: var(--space-md);
+                border-radius: var(--radius-md);
+              "
+            >
+              <h3 class="font-bold mb-2">Seguridad Mejorada</h3>
+              <p class="text-secondary text-sm">
+                Implementación de 2FA para todas las cuentas de administrador.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="assets/js/app.js"></script>
+  </body>
+</html>

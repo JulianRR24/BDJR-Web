@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto - BDJR</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/utilities.css">
+    <style>
+        /* Product Specific Styles */
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        .main-image {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+        .thumbnails {
+            display: flex;
+            gap: var(--space-sm);
+            overflow-x: auto;
+        }
+        .thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            border: 2px solid transparent;
+            object-fit: cover;
+        }
+        .thumb.active {
+            border-color: var(--primary);
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        .vendor {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        .price-container {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-sm);
+            font-size: 1.5rem;
+        }
+        .compare-price {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+        
+        /* Tabs */
+        .tabs {
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-md);
+        }
+        .tab-btn {
+            padding: var(--space-sm) 0;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        .tab-content {
+            display: none;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .feature-list {
+            list-style: disc;
+            padding-left: 1.5rem;
+            margin-top: var(--space-sm);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+        <main class="main-content">
+            <div class="page-header">
+                <a href="catalog.html" class="btn btn-outline btn-sm">← Volver al Catálogo</a>
+            </div>
+
+            <div id="product-container" class="card grid grid-2" style="align-items: start;">
+                <!-- Injected by JS -->
+                <div class="text-center w-full col-span-2">Cargando producto...</div>
+            </div>
+
+        </main>
+    </div>
+    <script type="module" src="assets/js/app.js"></script>
+    <script type="module">
+        import { products } from './assets/js/products.js';
+        import { formatCurrency } from './assets/js/utils.js';
+        import { addToCart } from './assets/js/cart.js';
+
+        const params = new URLSearchParams(window.location.search);
+        const productId = parseInt(params.get('id'));
+        const product = products.find(p => p.id === productId);
+
+        const container = document.getElementById('product-container');
+
+        if (!product) {
+            container.innerHTML = `
+                <div class="text-center col-span-2 py-8">
+                    <h2 class="text-xl font-bold mb-2">Producto no encontrado</h2>
+                    <a href="catalog.html" class="btn btn-primary">Ir al Catálogo</a>
+                </div>
+            `;
+        } else {
+            // Render Product
+            container.innerHTML = `
+                <!-- Left: Gallery -->
+                <!-- Left: Gallery -->
+                <div class="product-gallery">
+                    <div class="product-card-image-container" style="aspect-ratio: 1/1; border-radius: var(--radius-lg); border: 1px solid var(--border-color); overflow: hidden; cursor: zoom-in;">
+                        <div class="product-card-image-bg" id="main-image-bg" style="background-image: url('${product.images[0]}')"></div>
+                        <img src="${product.images[0]}" alt="${product.name}" class="product-card-image" id="main-image" style="transition: transform 0.1s ease-out;">
+                    </div>
+                    <div class="thumbnails">
+                        ${product.images.map((img, index) => `
+                            <img src="${img}" class="thumb ${index === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)">
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Right: Info -->
+                <div class="product-info">
+                    <div class="vendor">${product.vendor}</div>
+                    <h1 class="page-title" style="margin-bottom:0;">${product.name}</h1>
+                    
+                    <div class="price-container">
+                        <span class="font-bold text-primary">${formatCurrency(product.price)}</span>
+                        ${product.comparePrice ? `<span class="compare-price">${formatCurrency(product.comparePrice)}</span>` : ''}
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label class="form-label">Cantidad</label>
+                        <div class="flex gap-2">
+                            <input type="number" value="1" min="1" id="qty-input" class="form-input" style="width: 80px;">
+                            <button class="btn btn-primary flex-1" id="add-btn">
+                                Añadir al Carrito
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="https://w.app/bdjr" target="_blank" class="btn btn-outline w-full" style="border-color: #25D366; color: #128C7E; gap: 8px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-8.68-2.031-.967-.272-.297-.471-.446-.916-.446-.445 0-.991.149-1.51.718-.519.569-1.981 1.954-1.981 4.772 0 2.817 2.053 5.536 2.35 5.933.297.396 4.039 6.17 9.782 8.648 3.82 1.649 5.297 1.323 6.238 1.238.94-.085 2.996-1.225 3.417-2.413.421-1.189.421-2.207.297-2.413z"/></svg>
+                            Hablar con un Asesor
+                        </a>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="tabs">
+                            <button class="tab-btn active" onclick="switchTab('desc')">Descripción</button>
+                            <button class="tab-btn" onclick="switchTab('features')">Características</button>
+                            <button class="tab-btn" onclick="switchTab('benefits')">Beneficios</button>
+                        </div>
+                        
+                        <div id="tab-desc" class="tab-content active">
+                            <p>${product.longDescription}</p>
+                        </div>
+                        
+                        <div id="tab-features" class="tab-content">
+                            <ul class="feature-list">
+                                ${product.features.map(f => `<li>${f}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div id="tab-benefits" class="tab-content">
+                            <ul class="feature-list">
+                                ${product.benefits.map(b => `<li>${b}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add to Cart Logic
+            document.getElementById('add-btn').addEventListener('click', () => {
+                const qty = parseInt(document.getElementById('qty-input').value);
+                for(let i=0; i<qty; i++) {
+                    addToCart(product.id);
+                }
+                const btn = document.getElementById('add-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Añadido';
+                btn.classList.add('btn-success');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('btn-success');
+                }, 1000);
+            });
+        }
+
+        // Zoom Functionality
+        const imageContainer = document.querySelector('.product-card-image-container');
+        const mainImage = document.getElementById('main-image');
+
+        if (imageContainer && mainImage) {
+        // Zoom Functionality
+        const imageContainer = document.querySelector('.product-card-image-container');
+        const mainImage = document.getElementById('main-image');
+
+        if (imageContainer && mainImage) {
+            let zoomLevel = 1; // 1: 1x, 2: 2x, 3: 3x
+
+            const updateZoom = (x, y) => {
+                // Update origin to follow cursor/finger
+                mainImage.style.transformOrigin = `${x}% ${y}%`;
+            };
+
+            const applyZoomLevel = () => {
+                if (zoomLevel === 1) {
+                    mainImage.style.transform = 'scale(1)';
+                    mainImage.style.cursor = 'zoom-in';
+                    // Reset origin to center for smooth transition back
+                    setTimeout(() => {
+                        if (zoomLevel === 1) mainImage.style.transformOrigin = 'center center';
+                    }, 150); 
+                } else if (zoomLevel === 2) {
+                    mainImage.style.transform = 'scale(2)';
+                    mainImage.style.cursor = 'zoom-in';
+                } else if (zoomLevel === 3) {
+                    mainImage.style.transform = 'scale(3)';
+                    mainImage.style.cursor = 'zoom-out';
+                }
+            };
+
+            const handleInteraction = (clientX, clientY) => {
+                const { left, top, width, height } = imageContainer.getBoundingClientRect();
+                const x = (clientX - left) / width * 100;
+                const y = (clientY - top) / height * 100;
+                
+                // Update origin immediately so zoom happens AT the click point
+                updateZoom(x, y);
+            };
+
+            // Click / Tap to toggle zoom
+            imageContainer.addEventListener('click', (e) => {
+                // Cycle: 1 -> 2 -> 3 -> 1
+                zoomLevel = (zoomLevel % 3) + 1;
+                
+                handleInteraction(e.clientX, e.clientY);
+                applyZoomLevel();
+            });
+
+            // Movement to pan
+            imageContainer.addEventListener('mousemove', (e) => {
+                if (zoomLevel === 1) return;
+                handleInteraction(e.clientX, e.clientY);
+            });
+
+            imageContainer.addEventListener('mouseleave', () => {
+                // Optional: Reset on leave for desktop? 
+                // User asked for "click" behavior, but leaving the area usually implies stopping interaction.
+                // Let's reset to avoid confusion.
+                zoomLevel = 1;
+                applyZoomLevel();
+            });
+
+            // Mobile Touch
+            // We rely on 'click' for the toggle (tap), but we need 'touchmove' for panning.
+            imageContainer.addEventListener('touchmove', (e) => {
+                if (zoomLevel === 1) return;
+                e.preventDefault(); // Prevent scroll while panning
+                
+                const touch = e.touches[0];
+                const { left, top, width, height } = imageContainer.getBoundingClientRect();
+                
+                // Check bounds
+                if (touch.clientX >= left && touch.clientX <= left + width &&
+                    touch.clientY >= top && touch.clientY <= top + height) {
+                    handleInteraction(touch.clientX, touch.clientY);
+                }
+            }, { passive: false });
+        }
+        }
+
+        // Global functions for inline onclicks (attached to window)
+        window.changeImage = (src, thumb) => {
+            document.getElementById('main-image').src = src;
+            document.getElementById('main-image-bg').style.backgroundImage = `url('${src}')`;
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+        };
+
+
+        window.switchTab = (tabName) => {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            // Find the button that called this (simple way: iterate text content or use event)
+            // For simplicity in this vanilla implementation, we'll just toggle classes based on index or similar, 
+            // but actually let's just use event delegation or simpler logic.
+            // Re-implementing correctly:
+            const buttons = document.querySelectorAll('.tab-btn');
+            if(tabName === 'desc') buttons[0].classList.add('active');
+            if(tabName === 'features') buttons[1].classList.add('active');
+            if(tabName === 'benefits') buttons[2].classList.add('active');
+        };
+    </script>
+</body>
+</html>

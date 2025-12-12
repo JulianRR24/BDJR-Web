@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - BDJR</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/utilities.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1 class="page-title">Catálogo de Soluciones</h1>
+                    <p class="text-secondary">Herramientas y servicios para escalar tu negocio o impulsar tu crecimiento personal.</p>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" placeholder="Buscar..." class="form-input" style="width: 200px;">
+                    <select class="form-select" style="width: 150px;">
+                        <option>Todos</option>
+                        <option>Software</option>
+                        <option>Infraestructura</option>
+                    </select>
+                </div>
+            </header>
+
+            <div id="product-grid" class="grid grid-3">
+                <!-- Products injected by JS -->
+            </div>
+
+        </main>
+    </div>
+    <script type="module" src="assets/js/app.js"></script>
+    <script type="module">
+        import { apiRequest } from './assets/js/api.js';
+        import { cart } from './assets/js/cart.js';
+        import { formatCurrency } from './assets/js/utils.js'; // Assuming utils.js exists or I should create it/inline it. I'll inline it to be safe.
+
+        const formatMoney = (amount) => {
+             return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(amount);
+        };
+
+        const grid = document.getElementById('product-grid');
+
+        async function loadProducts() {
+            try {
+                grid.innerHTML = '<div class="col-span-3 text-center py-8">Cargando productos...</div>';
+                const products = await apiRequest('products.php');
+                
+                if (products.length === 0) {
+                    grid.innerHTML = '<div class="col-span-3 text-center py-8">No hay productos disponibles.</div>';
+                    return;
+                }
+
+                grid.innerHTML = products.map(product => `
+                    <div class="card">
+                        <a href="#" class="product-card-image-container">
+                            <div class="product-card-image-bg" style="background-image: url('${product.image_url || 'assets/images/placeholder.jpg'}')"></div>
+                            <img src="${product.image_url || 'assets/images/placeholder.jpg'}" alt="${product.name}" class="product-card-image">
+                        </a>
+                        
+                        <div class="product-card-category">
+                            <span class="badge badge-primary">${product.category || 'General'}</span>
+                        </div>
+                        
+                        <a href="#">
+                            <h3 class="card-title mb-2 hover:text-primary transition-colors">${product.name}</h3>
+                        </a>
+                        
+                        <p class="product-card-description">${product.description || ''}</p>
+                        
+                        <div class="product-card-footer">
+                            <div class="flex flex-col items-center" style="gap: 6px;">
+                                <span class="product-price" style="font-size: 1.1rem;">${formatMoney(product.price)}</span>
+                                ${product.compare_price ? `<span class="text-muted" style="text-decoration: line-through; font-size: 0.7rem;">${formatMoney(product.compare_price)}</span>` : ''}
+                            </div>
+                            <button class="btn btn-primary btn-sm add-to-cart" data-id="${product.id}" data-product='${JSON.stringify(product).replace(/'/g, "&#39;")}'>
+                                Añadir
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error(error);
+                grid.innerHTML = '<div class="col-span-3 text-center text-danger py-8">Error al cargar productos.</div>';
+            }
+        }
+
+        // Event Delegation for Add to Cart
+        grid.addEventListener('click', (e) => {
+            if (e.target.closest('.add-to-cart')) {
+                const btn = e.target.closest('.add-to-cart');
+                const product = JSON.parse(btn.dataset.product);
+                
+                cart.add(product);
+                
+                // Visual feedback
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Añadido';
+                btn.classList.add('btn-success');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('btn-success');
+                }, 1000);
+            }
+        });
+
+        loadProducts();
+    </script>
+</body>
+</html>

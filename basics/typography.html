@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipografía - Basics</title>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/utilities.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+        <main class="main-content">
+            <header class="page-header">
+                <h1 class="page-title">Tipografía y Textos</h1>
+            </header>
+
+            <div class="card mb-4">
+                <h2 class="card-title mb-4">Encabezados</h2>
+                <div class="space-y-4">
+                    <h1>H1: Título Principal del Emprendimiento</h1>
+                    <h2>H2: Subtítulo de Sección</h2>
+                    <h3>H3: Encabezado de Tarjeta o Artículo</h3>
+                    <h4>H4: Título de Detalle</h4>
+                    <h5>H5: Título Menor</h5>
+                    <h6>H6: Título de Pie de Página</h6>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <h2 class="card-title mb-4">Párrafos y Estilos</h2>
+                <p class="mb-2">
+                    Este es un párrafo estándar que describe la misión de <strong>TechStart</strong>. 
+                    Nuestra empresa se dedica a la <em>innovación constante</em> y al desarrollo de software de alta calidad.
+                </p>
+                <p class="text-secondary mb-4">
+                    Este es un párrafo con color secundario (muted), ideal para descripciones o textos menos importantes.
+                </p>
+                
+                <hr class="border-gray-700 my-4">
+
+                <h3 class="font-bold mb-2">Citas (Blockquote)</h3>
+                <blockquote style="border-left: 4px solid var(--primary); padding-left: 1rem; font-style: italic;" class="text-secondary">
+                    "La tecnología es mejor cuando une a las personas." 
+                    <footer class="text-sm mt-1">— Matt Mullenweg</footer>
+                </blockquote>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title mb-4">Código y Preformato</h2>
+                <p class="mb-2">Para instalar nuestra librería, usa el siguiente comando:</p>
+                <pre style="background: #000; padding: 1rem; border-radius: var(--radius-md); overflow-x: auto;"><code>npm install @techstart/core</code></pre>
+                <p class="mt-2">O usa la etiqueta <code>&lt;script&gt;</code> en tu HTML.</p>
+            </div>
+
+        </main>
+    </div>
+    <script type="module" src="../assets/js/app.js"></script>
+</body>
+</html>

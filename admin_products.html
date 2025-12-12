@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Productos - BDJR</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/utilities.css">
+    <style>
+      .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9em;
+      }
+      .admin-table th,
+      .admin-table td {
+        text-align: left;
+        padding: 12px;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .admin-table th {
+        background-color: var(--bg-card);
+        color: var(--text-muted);
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+      }
+      .modal-content {
+        background-color: var(--bg-card);
+        margin: 5% auto;
+        padding: 2rem;
+        border: 1px solid var(--border-color);
+        width: 90%;
+        max-width: 800px;
+        border-radius: var(--radius-lg);
+        position: relative;
+        box-shadow: var(--shadow-lg);
+      }
+      .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-muted);
+      }
+      .close-btn:hover {
+        color: var(--text-primary);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <main class="main-content">
+        <header class="page-header flex justify-between items-center">
+          <div>
+            <h1 class="page-title">Administrar Productos</h1>
+            <p class="text-secondary">Gestiona tu catálogo completo.</p>
+          </div>
+          <button type="button" id="add-product-btn" class="btn btn-primary">
+            + Agregar Producto
+          </button>
+        </header>
+
+        <div class="card">
+          <div class="overflow-x-auto">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Nombre</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="products-table-body">
+                <!-- JS Injected -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Modal Form -->
+        <div id="product-modal" class="modal">
+          <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="card-title mb-4" id="modal-title">Nuevo Producto</h2>
+            <form id="product-form" class="grid grid-2 gap-4">
+              <input type="hidden" id="p-id">
+
+              <div class="col-span-2">
+                <label class="form-label">Nombre del Producto</label>
+                <input
+                  type="text"
+                  id="p-name"
+                  class="form-input"
+                  required
+                  placeholder="Ej: FinanzApp"
+                >
+                <p class="text-xs text-muted mt-1">
+                  La imagen se buscará automáticamente en:
+                  assets/images/products/[Nombre].png
+                </p>
+              </div>
+
+              <div>
+                <label class="form-label">Vendedor / Marca</label>
+                <input
+                  type="text"
+                  id="p-vendor"
+                  class="form-input"
+                  value="BDJR"
+                  required
+                >
+              </div>
+
+              <div>
+                <label class="form-label">Categoría</label>
+                <select id="p-category" class="form-input">
+                  <option value="Software">Software</option>
+                  <option value="Curso">Curso</option>
+                  <option value="Ebook">Ebook</option>
+                  <option value="Mentoría">Mentoría</option>
+                  <option value="General">General</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="form-label">Precio</label>
+                <input
+                  type="number"
+                  id="p-price"
+                  class="form-input"
+                  required
+                  min="0"
+                >
+              </div>
+
+              <div>
+                <label class="form-label">Precio Comparación (Antes)</label>
+                <input
+                  type="number"
+                  id="p-compare"
+                  class="form-input"
+                  min="0"
+                >
+              </div>
+
+              <div class="col-span-2">
+                <label class="form-label">Descripción Corta</label>
+                <textarea
+                  id="p-desc"
+                  class="form-input"
+                  rows="2"
+                  placeholder="Breve resumen..."
+                ></textarea>
+              </div>
+
+              <div class="col-span-2">
+                <label class="form-label">Descripción Larga</label>
+                <textarea
+                  id="p-long-desc"
+                  class="form-input"
+                  rows="4"
+                  placeholder="Detalles completos..."
+                ></textarea>
+              </div>
+
+              <div class="col-span-2">
+                <label class="form-label"
+                  >Características (Una por línea)</label
+                >
+                <textarea
+                  id="p-features"
+                  class="form-input"
+                  rows="3"
+                  placeholder="- Característica 1&#10;- Característica 2"
+                ></textarea>
+              </div>
+
+              <div class="col-span-2">
+                <label class="form-label">Beneficios (Una por línea)</label>
+                <textarea
+                  id="p-benefits"
+                  class="form-input"
+                  rows="3"
+                  placeholder="- Beneficio 1&#10;- Beneficio 2"
+                ></textarea>
+              </div>
+
+              <div class="col-span-2 mt-4 flex justify-end gap-2">
+                <button type="button" class="btn btn-outline close-modal-btn">
+                  Cancelar
+                </button>
+                <button type="submit" class="btn btn-primary" id="save-btn">
+                  Guardar Producto
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/admin.js"></script>
+  </body>
+</html>

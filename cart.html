@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - BDJR</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/utilities.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1 class="page-title">Tu Carrito</h1>
+                    <p class="text-secondary">Revisa tus soluciones seleccionadas.</p>
+                </div>
+            </header>
+
+            <div class="grid grid-2" style="grid-template-columns: 2fr 1fr;">
+                <!-- Cart Items -->
+                <div class="card">
+                    <div id="cart-items">
+                        <!-- Injected by JS -->
+                        <div class="text-center text-muted py-4">Cargando carrito...</div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="card h-fit">
+                    <h2 class="card-title mb-4">Resumen</h2>
+                    <div class="flex justify-between mb-4">
+                        <span class="text-secondary">Subtotal</span>
+                        <span id="cart-subtotal">$0.00</span>
+                    </div>
+                    <div class="flex justify-between mb-4 pt-4 border-t border-gray-700 font-bold text-lg">
+                        <span>Total</span>
+                        <span id="cart-total">$0.00</span>
+                    </div>
+                    
+                    <!-- Mercado Pago Container -->
+                    <div id="walletBrick_container"></div>
+                    <div id="mp-loader" class="text-center text-muted hidden">Cargando pasarela de pago...</div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script type="module" src="assets/js/app.js"></script>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script type="module">
+        import { cart } from './assets/js/cart.js';
+        import { apiRequest } from './assets/js/api.js';
+        import { isAuthenticated, getCurrentUser } from './assets/js/auth.js';
+
+        const mp = new MercadoPago('APP_USR-7e265cdb-bbb5-42c8-9ae1-c98afd27dd18', {
+            locale: 'es-CO'
+        });
+
+        const formatCurrency = (amount) => {
+            return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(amount);
+        };
+
+        const renderCart = () => {
+            const container = document.getElementById('cart-items');
+            
+            if (cart.items.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="text-4xl mb-2">🛒</div>
+                        <p class="text-muted">Tu carrito está vacío.</p>
+                        <a href="catalog.html" class="btn btn-primary mt-4">Ir al Catálogo</a>
+                    </div>
+                `;
+                updateTotals();
+                document.getElementById('walletBrick_container').innerHTML = ''; // Clear payment button
+                return;
+            }
+
+            container.innerHTML = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${cart.items.map(item => `
+                            <tr>
+                                <td>
+                                    <div class="font-bold">${item.name}</div>
+                                    <div class="text-xs text-secondary">${item.category || ''}</div>
+                                </td>
+                                <td>${formatCurrency(item.price)}</td>
+                                <td>
+                                    <input type="number" min="1" value="${item.quantity}" 
+                                        class="form-input qty-input" 
+                                        data-id="${item.id}" 
+                                        style="width: 60px; padding: 4px;">
+                                </td>
+                                <td>${formatCurrency(item.price * item.quantity)}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger remove-btn" data-id="${item.id}">×</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            updateTotals();
+            initMercadoPago(); // Re-init payment button when cart changes
+        };
+
+        const updateTotals = () => {
+            const subtotal = cart.getTotal();
+            const total = subtotal; // Sin IVA adicional
+
+            document.getElementById('cart-subtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('cart-total').textContent = formatCurrency(total);
+        };
+
+        let bricksBuilder = null;
+
+        const initMercadoPago = async () => {
+            if (cart.items.length === 0) return;
+            if (!isAuthenticated()) {
+                document.getElementById('walletBrick_container').innerHTML = `
+                    <div class="text-center p-4 bg-bg-card rounded border border-border">
+                        <p class="mb-2">Inicia sesión para finalizar tu compra</p>
+                        <a href="login.html" class="btn btn-primary btn-sm">Iniciar Sesión</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const loader = document.getElementById('mp-loader');
+            loader.classList.remove('hidden');
+
+            try {
+                // 1. Create Preference on Backend
+                const user = getCurrentUser();
+                const response = await apiRequest('create_preference.php', 'POST', {
+                    items: cart.items,
+                    user: user
+                });
+
+                if (response.id) {
+                    // 2. Render Wallet Brick
+                    if (!bricksBuilder) bricksBuilder = mp.bricks();
+                    
+                    document.getElementById('walletBrick_container').innerHTML = ''; // Clear previous
+                    await bricksBuilder.create("wallet", "walletBrick_container", {
+                        initialization: {
+                            preferenceId: response.id,
+                        },
+                        customization: {
+                            texts: {
+                                valueProp: 'security_details',
+                            },
+                        },
+                    });
+                }
+            } catch (error) {
+                console.error('Error init MP:', error);
+                document.getElementById('walletBrick_container').innerHTML = '<div class="text-danger text-center">Error al cargar pasarela.</div>';
+            } finally {
+                loader.classList.add('hidden');
+            }
+        };
+
+        // Event Listeners
+        document.getElementById('cart-items').addEventListener('change', (e) => {
+            if (e.target.classList.contains('qty-input')) {
+                const id = e.target.dataset.id;
+                const qty = parseInt(e.target.value);
+                cart.updateQuantity(id, qty);
+                renderCart();
+            }
+        });
+
+        document.getElementById('cart-items').addEventListener('click', async (e) => {
+            if (e.target.classList.contains('remove-btn')) {
+                const id = e.target.dataset.id;
+                cart.remove(id);
+                renderCart();
+            }
+        });
+
+        renderCart();
+    </script>
+</body>
+</html>

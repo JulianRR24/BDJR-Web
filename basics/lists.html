@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listas - Basics</title>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/utilities.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+        <main class="main-content">
+            <header class="page-header">
+                <h1 class="page-title">Listas</h1>
+            </header>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <h2 class="card-title mb-4">Lista Desordenada (UL)</h2>
+                    <p class="mb-2">Nuestros servicios principales:</p>
+                    <ul style="list-style-type: disc; padding-left: 1.5rem;" class="space-y-2">
+                        <li>Desarrollo Web Full Stack</li>
+                        <li>Consultoría en Cloud Computing</li>
+                        <li>Auditoría de Ciberseguridad</li>
+                        <li>Diseño UX/UI</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title mb-4">Lista Ordenada (OL)</h2>
+                    <p class="mb-2">Pasos para contratar un servicio:</p>
+                    <ol style="list-style-type: decimal; padding-left: 1.5rem;" class="space-y-2">
+                        <li>Registrarse en la plataforma.</li>
+                        <li>Navegar al catálogo de soluciones.</li>
+                        <li>Seleccionar el producto deseado.</li>
+                        <li>Realizar el pago seguro.</li>
+                        <li>Recibir las credenciales de acceso.</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title mb-4">Lista de Definición (DL)</h2>
+                    <dl class="space-y-4">
+                        <div>
+                            <dt class="font-bold text-primary">SaaS</dt>
+                            <dd class="text-secondary ml-4">Software as a Service. Modelo de distribución de software.</dd>
+                        </div>
+                        <div>
+                            <dt class="font-bold text-primary">API</dt>
+                            <dd class="text-secondary ml-4">Application Programming Interface. Interfaz para conectar sistemas.</dd>
+                        </div>
+                        <div>
+                            <dt class="font-bold text-primary">Deploy</dt>
+                            <dd class="text-secondary ml-4">Proceso de despliegue de una aplicación en un servidor.</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title mb-4">Listas Anidadas</h2>
+                    <ul style="list-style-type: square; padding-left: 1.5rem;">
+                        <li>Frontend
+                            <ul style="list-style-type: circle; padding-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>React</li>
+                                <li>Vue</li>
+                                <li>Angular</li>
+                            </ul>
+                        </li>
+                        <li class="mt-2">Backend
+                            <ul style="list-style-type: circle; padding-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Node.js</li>
+                                <li>Python (Django/FastAPI)</li>
+                                <li>Go</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script type="module" src="../assets/js/app.js"></script>
+</body>
+</html>

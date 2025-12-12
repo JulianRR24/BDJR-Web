@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - BDJR</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/utilities.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+        <main class="main-content">
+            <header class="page-header">
+                <h1 class="page-title">Configuración</h1>
+            </header>
+
+            <div class="card settings-card">
+                <h2 class="card-title mb-4">Apariencia</h2>
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-bold">Tema</h3>
+                        <p class="text-secondary text-sm">Selecciona tu preferencia de color.</p>
+                    </div>
+                    <button type="button" id="theme-toggle" class="btn btn-outline">
+                        <span id="theme-icon">🌙</span>
+                        <span id="theme-text">Modo Oscuro</span>
+                    </button>
+                </div>
+
+                <hr class="border-gray-700 my-4">
+
+                <h2 class="card-title mb-4">Cuenta</h2>
+                <div class="form-group">
+                    <label class="form-label">Idioma</label>
+                    <select class="form-select">
+                        <option>Español</option>
+                        <option>English</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" checked> Recibir notificaciones por correo
+                    </label>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script type="module" src="assets/js/app.js"></script>
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+        const html = document.documentElement;
+
+        // Check current theme
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        updateUI(currentTheme);
+
+        toggleBtn.addEventListener('click', () => {
+            const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateUI(newTheme);
+        });
+
+        function updateUI(theme) {
+            if (theme === 'light') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Modo Claro';
+                html.setAttribute('data-theme', 'light');
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Modo Oscuro';
+                html.setAttribute('data-theme', 'dark');
+            }
+        }
+    </script>
+</body>
+</html>
